@@ -2,79 +2,81 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-<title>Dirvish Web Interface</title>
+	<title>Dirvish Web Interface</title>
 </head>
 
 <body>
+
 <table border="1" width="90%">
-<tr>
-<td>Client</td><td>Backup begin</td><td>Backup complete</td><td>Image now</td><td>Status</td>
-</tr>
-<?php
+	<tr>
+		<td>Client</td><td>Backup begin</td><td>Backup complete</td><td>Image now</td><td>Status</td>
+	</tr>
 
-$master_conf_path = '/etc/dirvish/master.conf';
+		<?php
 
-$master_conf = file_get_contents($master_conf_path);
+		require('config.php');
 
-preg_match('/bank:\n(.*)\n\n/msU',$master_conf,$matches);
+		$master_conf = file_get_contents($master_conf_path);
 
-$bank_folders = explode("\n",$matches[1]);
+		preg_match('/bank:\n(.*)\n\n/msU',$master_conf,$matches);
 
-foreach ($bank_folders as $bank_folder) {
+		$bank_folders = explode("\n",$matches[1]);
 
-	$bank_folder=trim($bank_folder);
+		foreach ($bank_folders as $bank_folder) {
 
-	$backup_folders = scandir($bank_folder);
+			$bank_folder=trim($bank_folder);
 
-	foreach ($backup_folders as $backup_folder) {
+			$backup_folders = scandir($bank_folder);
 
-		if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.'/'.$backup_folder)) {
+			foreach ($backup_folders as $backup_folder) {
 
-			$date_folders = scandir($bank_folder.'/'.$backup_folder,SCANDIR_SORT_DESCENDING);
+				if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.'/'.$backup_folder)) {
 
-			foreach ($date_folders as $date_folder) {
-				if ($date_folder != 'dirvish') {
-					if (file_exists($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary')) {
-							$summary = file_get_contents($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary');
+					$date_folders = scandir($bank_folder.'/'.$backup_folder,SCANDIR_SORT_DESCENDING);
 
-							preg_match('/client:(.*)/',$summary,$summary_matches);
-							$client = trim($summary_matches[1]);
-							
-							preg_match('/Status:(.*)/',$summary,$summary_matches);
-							$status = trim($summary_matches[1]);
+					foreach ($date_folders as $date_folder) {
+						if ($date_folder != 'dirvish') {
+							if (file_exists($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary')) {
+									$summary = file_get_contents($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary');
 
-							preg_match('/Backup-begin:(.*)/',$summary,$summary_matches);
-							$backup_begin = trim($summary_matches[1]);
+									preg_match('/client:(.*)/',$summary,$summary_matches);
+									$client = trim($summary_matches[1]);
+									
+									preg_match('/Status:(.*)/',$summary,$summary_matches);
+									$status = trim($summary_matches[1]);
 
-							preg_match('/Backup-complete:(.*)/',$summary,$summary_matches);
-							$backup_complete = trim($summary_matches[1]);
+									preg_match('/Backup-begin:(.*)/',$summary,$summary_matches);
+									$backup_begin = trim($summary_matches[1]);
 
-							preg_match('/Image-now:(.*)/',$summary,$summary_matches);
-							$image_now = trim($summary_matches[1]);
+									preg_match('/Backup-complete:(.*)/',$summary,$summary_matches);
+									$backup_complete = trim($summary_matches[1]);
+
+									preg_match('/Image-now:(.*)/',$summary,$summary_matches);
+									$image_now = trim($summary_matches[1]);
 
 
-							echo '<tr>';
-							echo '<td>'.$client.'</td>';
-							echo '<td>'.$backup_begin.'</td>';
-							echo '<td>'.$backup_complete.'</td>';
-							if (date('Ymd',strtotime($image_now))==date('Ymd',time())) {
-								echo '<td style="background-color: #00FF00">'.$image_now.'</td>';
-							} else {
-								echo '<td style="background-color: #FF0000">'.$image_now.'</td>';
+									echo '<tr>';
+									echo '<td>'.$client.'</td>';
+									echo '<td>'.$backup_begin.'</td>';
+									echo '<td>'.$backup_complete.'</td>';
+									if (date('Ymd',strtotime($image_now))==date('Ymd',time())) {
+										echo '<td style="background-color: #00FF00">'.$image_now.'</td>';
+									} else {
+										echo '<td style="background-color: #FF0000">'.$image_now.'</td>';
+									}
+									
+									if ($status=='success') { echo '<td style="background-color: #00FF00">'.$status.'</td>'; } else { '<td style="background-color: #FF0000">'.$status.'</td>'; }
+									echo '</tr>';
 							}
-							
-							if ($status=='success') { echo '<td style="background-color: #00FF00">'.$status.'</td>'; } else { '<td style="background-color: #FF0000">'.$status.'</td>'; }
-							echo '</tr>';
+							break;
+						}
 					}
-					break;
 				}
+
 			}
 		}
 
-	}
-}
-
-?>
+		?>
 
 </table>
 
