@@ -1,3 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<title>Dirvish Web Interface</title>
+</head>
+
+<body>
 <table border="1" width="90%">
 <tr>
 <td>Client</td><td>Backup begin</td><td>Backup complete</td><td>Image now</td><td>Status</td>
@@ -56,7 +64,7 @@ foreach ($bank_folders as $bank_folder) {
 							}
 							
 							if ($status=='success') { echo '<td style="background-color: #00FF00">'.$status.'</td>'; } else { '<td style="background-color: #FF0000">'.$status.'</td>'; }
-							echo '<tr>';
+							echo '</tr>';
 					}
 					break;
 				}
@@ -69,3 +77,6 @@ foreach ($bank_folders as $bank_folder) {
 ?>
 
 </table>
+
+</body>
+</html>
