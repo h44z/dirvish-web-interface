@@ -4,17 +4,17 @@
 <head>
 	<title>Dirvish Web Interface</title>
 
-	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
-	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">    
-	<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />    
+	<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen" />
 </head>
 
 <body>
 
 <div class="container show_grid">
 
-<div class="span-24 last"><img src="img/logo.png"></img></div>
+<div class="span-24 last"><img src="img/logo.png" alt="Dirvish Web Interface"></img></div>
 
 <table border="1">
 	<thead>
