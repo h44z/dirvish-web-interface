@@ -3,14 +3,25 @@
 
 <head>
 	<title>Dirvish Web Interface</title>
+
+	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">    
+	<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen">
 </head>
 
 <body>
 
-<table border="1" width="90%">
-	<tr>
-		<td>Client</td><td>Backup begin</td><td>Backup complete</td><td>Image now</td><td>Status</td>
-	</tr>
+<div class="container show_grid">
+
+<div class="span-24 last"><img src="img/logo.png"></img></div>
+
+<table border="1">
+	<thead>
+		<tr>
+			<th>Client</th><th>Backup begin</th><th>Backup complete</th><th>Last image backuped</th><th>Last job status</th>
+		</tr>
+	</thead>
 
 		<?php
 
@@ -60,12 +71,16 @@
 									echo '<td>'.$backup_begin.'</td>';
 									echo '<td>'.$backup_complete.'</td>';
 									if (date('Ymd',strtotime($image_now))==date('Ymd',time())) {
-										echo '<td style="background-color: #00FF00">'.$image_now.'</td>';
+										echo '<td><div class="success_div">'.$image_now.'</div></td>';
 									} else {
-										echo '<td style="background-color: #FF0000">'.$image_now.'</td>';
+										echo '<td><div class="error_div">'.$image_now.'</div></td>';
 									}
 									
-									if ($status=='success') { echo '<td style="background-color: #00FF00">'.$status.'</td>'; } else { '<td style="background-color: #FF0000">'.$status.'</td>'; }
+									if ($status=='success') {
+										echo '<td><div class="success_div">'.$status.'</div></td>';
+									} else {
+										echo '<td><div class="error_div">'.$status.'</div></td>';
+									}
 									echo '</tr>';
 							}
 							break;
@@ -79,6 +94,7 @@
 		?>
 
 </table>
+</div>
 
 </body>
 </html>
