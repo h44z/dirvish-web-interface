@@ -8,92 +8,28 @@
 	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />    
 	<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen" />
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/main.js"></script>
 </head>
 
 <body>
 
-<div class="container show_grid">
+<div class="container">
 
-<div class="span-24 last"><img src="img/logo.png" alt="Dirvish Web Interface"></img></div>
+	<div id="logo" class="span-11 last"></div>
 
-<table border="1">
-	<thead>
-		<tr>
-			<th>Client</th><th>Backup begin</th><th>Backup complete</th><th>Last image backuped</th><th>Last job status</th>
-		</tr>
-	</thead>
+	<div id="title-bar" class="span-24 last">
+		<div class="span-10">Client</div>
+		<div class="span-5">Last image</div>
+		<div class="span-3">Last job status</div>
+		<div class="span-6 last">Actions</div>
+	</div>
 
-		<?php
+	<div id="clients" class="span-24">
+		<br/>Scan des dossiers de backup en cours...
+	</div>
 
-		require('config.php');
-
-		$master_conf = file_get_contents($master_conf_path);
-
-		preg_match('/bank:\n(.*)\n\n/msU',$master_conf,$matches);
-
-		$bank_folders = explode("\n",$matches[1]);
-
-		foreach ($bank_folders as $bank_folder) {
-
-			$bank_folder=trim($bank_folder);
-
-			$backup_folders = scandir($bank_folder);
-
-			foreach ($backup_folders as $backup_folder) {
-
-				if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.'/'.$backup_folder)) {
-
-					$date_folders = scandir($bank_folder.'/'.$backup_folder,SCANDIR_SORT_DESCENDING);
-
-					foreach ($date_folders as $date_folder) {
-						if ($date_folder != 'dirvish') {
-							if (file_exists($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary')) {
-									$summary = file_get_contents($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary');
-
-									preg_match('/client:(.*)/',$summary,$summary_matches);
-									$client = trim($summary_matches[1]);
-									
-									preg_match('/Status:(.*)/',$summary,$summary_matches);
-									$status = trim($summary_matches[1]);
-
-									preg_match('/Backup-begin:(.*)/',$summary,$summary_matches);
-									$backup_begin = trim($summary_matches[1]);
-
-									preg_match('/Backup-complete:(.*)/',$summary,$summary_matches);
-									$backup_complete = trim($summary_matches[1]);
-
-									preg_match('/Image-now:(.*)/',$summary,$summary_matches);
-									$image_now = trim($summary_matches[1]);
-
-
-									echo '<tr>';
-									echo '<td>'.$client.'</td>';
-									echo '<td>'.$backup_begin.'</td>';
-									echo '<td>'.$backup_complete.'</td>';
-									if (date('Ymd',strtotime($image_now))==date('Ymd',time())) {
-										echo '<td><div class="success_div">'.$image_now.'</div></td>';
-									} else {
-										echo '<td><div class="error_div">'.$image_now.'</div></td>';
-									}
-									
-									if ($status=='success') {
-										echo '<td><div class="success_div">'.$status.'</div></td>';
-									} else {
-										echo '<td><div class="error_div">'.$status.'</div></td>';
-									}
-									echo '</tr>';
-							}
-							break;
-						}
-					}
-				}
-
-			}
-		}
-
-		?>
-
-</table>
 </div>
 
 </body>

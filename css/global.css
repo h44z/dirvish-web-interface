@@ -2,11 +2,23 @@ body {
 
 }
 
+#logo {
+	height: 54px;
+	background-image: url('../img/logo.png');
+	background-repeat: no-repeat;
+}
+
+#title-bar {
+	background-color: #C3D9FF;
+	height: 18px;
+	font-weight: bold;
+}
+
 .success_div {
 	color: #73880A;
 	padding-left: 20px;
 	background-image: url('../img/success.png');
-	background-repeat:no-repeat;
+	background-repeat: no-repeat;
 }
 
 .error_div {
