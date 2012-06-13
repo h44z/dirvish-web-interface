@@ -19,13 +19,6 @@
 
 	<div id="logo" class="span-11 last"></div>
 
-	<div id="title-bar" class="span-24 last">
-		<div class="span-10">Client</div>
-		<div class="span-5">Last image</div>
-		<div class="span-3">Last job status</div>
-		<div class="span-6 last">Actions</div>
-	</div>
-
 	<div id="clients" class="span-24">
 		<br/>Scan des dossiers de backup en cours...
 	</div>

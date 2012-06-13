@@ -27,13 +27,20 @@ class dirvish {
 			$bank_folder=trim($bank_folder);
 			$backup_folders = scandir($bank_folder);
 
-			$this->scan_backup_folders($bank_folder,$backup_folders);
+			$bank_array = array();
+
+			$this->scan_backup_folders($bank_folder,$backup_folders,$bank_array);
+
+			$this->clients[] = array('bank' => $bank_folder,
+						'free_space' => $this->getSymbolByQuantity(disk_free_space($bank_folder)),
+						'total_space' => $this->getSymbolByQuantity(disk_total_space($bank_folder)),
+						'clients' => $bank_array);
 
 		}
 
 	}
 
-	private function scan_backup_folders($bank_folder,$backup_folders) {
+	private function scan_backup_folders($bank_folder,$backup_folders,&$bank_array) {
 
 		foreach ($backup_folders as $backup_folder) {
 
@@ -41,25 +48,25 @@ class dirvish {
 
 				$date_folders = scandir($bank_folder.'/'.$backup_folder,SCANDIR_SORT_DESCENDING);
 				
-				$this->scan_date_folders($bank_folder,$backup_folder,$date_folders);
+				$this->scan_date_folders($bank_folder,$backup_folder,$date_folders,$bank_array);
 			}
 		}
 	}
 
-	private function scan_date_folders($bank_folder,$backup_folder,$date_folders) {
+	private function scan_date_folders($bank_folder,$backup_folder,$date_folders,&$bank_array) {
 
 		foreach ($date_folders as $date_folder) {
 			if ($date_folder != 'dirvish') {
 				if (file_exists($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary')) {
 
-					$this->parse_summary_history($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist');
+					$this->parse_summary_history($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist',$bank_array);
 				}
 				break;
 			}
 		}
 	}
 
-	private function parse_summary_history($summary_path,$history_path) {
+	private function parse_summary_history($summary_path,$history_path,&$bank_array) {
 
 		$summary = file_get_contents($summary_path);
 
@@ -82,7 +89,7 @@ class dirvish {
 
 		$summary = str_replace("\n",'<br/>',$summary);
 
-		$this->clients[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "summary" => $summary, "history" => $history);
+		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "summary" => $summary, "history" => $history);
 
 	}
 
@@ -92,6 +99,8 @@ class dirvish {
 		$history_array = explode("\n",trim($history));
 
 		array_shift($history_array);
+
+		$history_array = array_reverse($history_array);
 
 		$result = array();
 
@@ -103,6 +112,13 @@ class dirvish {
 		}
 
 		return $result;
+	}
+
+	private function getSymbolByQuantity($bytes) {
+		$symbols = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+		$exp = floor(log($bytes)/log(1024));
+
+		return sprintf('%.2f '.$symbols[$exp], ($bytes/pow(1024, floor($exp))));
 	}
 
 	public function get_clients() {

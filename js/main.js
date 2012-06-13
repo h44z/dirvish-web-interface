@@ -4,36 +4,45 @@ $(document).ready(function() {
 
 		$('#clients').empty();
 
-		$.each(data, function(key, val) {
-			$('#clients').append('<div id="client-'+key+'"></div>');
+		$.each(data, function(bank_key, bank_val) {
 
-			$('#client-'+key).append('<div class="span-10">'+val.client+'</div>');
-			$('#client-'+key).append('<div class="span-5">'+val.imageNow+'</div>');
-			$('#client-'+key).append('<div class="span-3">'+val.status+'</div>');
-			$('#client-'+key).append('<div class="span-6 last"><a href="#" onclick="sh_history('+key+');">Show history</a> | <a href="#" onclick="sh_summary('+key+')">Show logs</div>');
+			$('#clients').append('<div class="span-24 prepend-top last"><strong>Bank :</strong> '+bank_val.bank+'<strong> - Free space : </strong>'+bank_val.free_space+' / '+bank_val.total_space+'</div><div id="title-bar" class="span-24 last"><div class="span-10">Client</div><div class="span-5">Last image</div><div class="span-3">Last job status</div><div class="span-6 last">Actions</div></div>');
 
-			$('#client-'+key).append('<div id="history-'+key+'" class="span-24"></div>');
+			$.each(bank_val.clients, function(key, val) {
 
-			$.each(val.history, function(cnt,hist) {
-	
-				$('#history-'+key).append('<div class="span-4">'+hist.date+'</div><div class="span-4">'+hist.time+'</div><div class="span-4">'+hist.previous+'</div><div class="span-4">'+hist.image+'</div><div class="span-8 last">'+hist.expire+'</div>');
+				$('#clients').append('<div class="span-24 last" id="client-'+bank_key+'-'+key+'"></div>');
 
+				$('#client-'+bank_key+'-'+key).append('<div class="span-10">'+val.client+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span-5">'+val.imageNow+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span-3">'+val.status+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span-6 last"><a href="#" onclick="sh_history(\''+bank_key+'-'+key+'\');">Show history</a> | <a href="#" onclick="sh_summary(\''+bank_key+'-'+key+'\')">Show logs</div>');
+
+				$('#client-'+bank_key+'-'+key).append('<div id="history-'+bank_key+'-'+key+'" style="background-color: #AAAAAA;" class="span-24"></div>');
+
+				$('#history-'+bank_key+'-'+key).append('<div class="span-4">Date</div><div class="span-4">Time</div><div class="span-4">Previous</div><div class="span-4">Image</div><div class="span-8 last">Expire</div>');
+
+				$.each(val.history, function(cnt,hist) {
+		
+					$('#history-'+bank_key+'-'+key).append('<div class="span-4">'+hist.date+'</div><div class="span-4">'+hist.time+'</div><div class="span-4">'+hist.previous+'</div><div class="span-4">'+hist.image+'</div><div class="span-8 last">'+hist.expire+'</div>');
+
+				});
+
+				$('#client-'+bank_key+'-'+key).append('<div id="summary-'+bank_key+'-'+key+'" style="background-color: #BBBBBB;" class="span-24 last">'+val.summary+'</div>');	
+
+				$('#history-'+bank_key+'-'+key).hide();
+				$('#summary-'+bank_key+'-'+key).hide();
 			});
 
-			$('#client-'+key).append('<div id="summary-'+key+'" class="span-24 last">'+val.summary+'</div>');	
-
-			$('#history-'+key).hide();
-			$('#summary-'+key).hide();
 		});
 	});
-
-
 
 });
 
 function sh_history(id) {
 
 	if( $('#history-'+id).is(':hidden') ) {
+		$('[id^=history-]').hide();
+		$('[id^=summary-]').hide();
 		$('#history-'+id).show();
 	} else {
 		$('#history-'+id).hide();
@@ -44,6 +53,8 @@ function sh_history(id) {
 function sh_summary(id) {
 
 	if( $('#summary-'+id).is(':hidden') ) {
+		$('[id^=history-]').hide();
+		$('[id^=summary-]').hide();
 		$('#summary-'+id).show();
 	} else {
 		$('#summary-'+id).hide();
