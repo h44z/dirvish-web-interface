@@ -10,14 +10,16 @@ $(document).ready(function() {
 
 			$.each(bank_val.clients, function(key, val) {
 
-				$('#clients').append('<div class="span-24 last" id="client-'+bank_key+'-'+key+'"></div>');
+				if (val.status == 'success') { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
+
+				$('#clients').append('<div class="span-24 last" style="background-color: '+back_color+';" id="client-'+bank_key+'-'+key+'"></div>');
 
 				$('#client-'+bank_key+'-'+key).append('<div class="span-10">'+val.client+'</div>');
 				$('#client-'+bank_key+'-'+key).append('<div class="span-5">'+val.imageNow+'</div>');
 				$('#client-'+bank_key+'-'+key).append('<div class="span-3">'+val.status+'</div>');
 				$('#client-'+bank_key+'-'+key).append('<div class="span-6 last"><a href="#" onclick="sh_history(\''+bank_key+'-'+key+'\');">Show history</a> | <a href="#" onclick="sh_summary(\''+bank_key+'-'+key+'\')">Show logs</div>');
 
-				$('#client-'+bank_key+'-'+key).append('<div id="history-'+bank_key+'-'+key+'" style="background-color: #AAAAAA;" class="span-24"></div>');
+				$('#client-'+bank_key+'-'+key).append('<div id="history-'+bank_key+'-'+key+'" style="background-color: #EEEEEE;" class="span-24"></div>');
 
 				$('#history-'+bank_key+'-'+key).append('<div class="span-4">Date</div><div class="span-4">Time</div><div class="span-4">Previous</div><div class="span-4">Image</div><div class="span-8 last">Expire</div>');
 
@@ -27,7 +29,7 @@ $(document).ready(function() {
 
 				});
 
-				$('#client-'+bank_key+'-'+key).append('<div id="summary-'+bank_key+'-'+key+'" style="background-color: #BBBBBB;" class="span-24 last">'+val.summary+'</div>');	
+				$('#client-'+bank_key+'-'+key).append('<div id="summary-'+bank_key+'-'+key+'" style="background-color: #EEEEEE;" class="span-24 last"><div style="margin: 20px;">'+val.summary+'</div></div>');	
 
 				$('#history-'+bank_key+'-'+key).hide();
 				$('#summary-'+bank_key+'-'+key).hide();
