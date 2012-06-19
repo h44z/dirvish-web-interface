@@ -89,7 +89,9 @@ class dirvish {
 
 		$summary = str_replace("\n",'<br/>',$summary);
 
-		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "summary" => $summary, "history" => $history);
+		if (strtotime($image_now) < (time()-86400)) { $date_status = false; } else { $date_status = true; }
+
+		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "summary" => $summary, "history" => $history, "date_status" => $date_status);
 
 	}
 

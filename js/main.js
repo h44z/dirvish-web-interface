@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 			$.each(bank_val.clients, function(key, val) {
 
-				if (val.status == 'success') { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
+				if (val.date_status == true) { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
 
 				$('#clients').append('<div class="span-24 last" style="background-color: '+back_color+';" id="client-'+bank_key+'-'+key+'"></div>');
 
