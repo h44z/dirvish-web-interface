@@ -8,7 +8,6 @@ class dirvish {
 
 	function dirvish() {
 		$this->load_master_conf();
-		$this->scan_bank_folders();
 	}
 
 	private function load_master_conf() {
@@ -25,6 +24,9 @@ class dirvish {
 		foreach ($this->bank_folders as $bank_folder) {
 			
 			$bank_folder=trim($bank_folder);
+			
+			if (!preg_match('/\/$/',$bank_folder)) { $bank_folder = $bank_folder.'/'; }
+
 			$backup_folders = scandir($bank_folder);
 
 			$bank_array = array();
@@ -46,7 +48,7 @@ class dirvish {
 
 			if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.'/'.$backup_folder)) {
 
-				$date_folders = scandir($bank_folder.'/'.$backup_folder,SCANDIR_SORT_DESCENDING);
+				$date_folders = scandir($bank_folder.$backup_folder,SCANDIR_SORT_DESCENDING);
 				
 				$this->scan_date_folders($bank_folder,$backup_folder,$date_folders,$bank_array);
 			}
@@ -57,16 +59,16 @@ class dirvish {
 
 		foreach ($date_folders as $date_folder) {
 			if ($date_folder != 'dirvish') {
-				if (file_exists($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary')) {
+				if (file_exists($bank_folder.$backup_folder.'/'.$date_folder.'/summary')) {
 
-					$this->parse_summary_history($bank_folder.'/'.$backup_folder.'/'.$date_folder.'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist',$bank_array);
+					$this->parse_summary($bank_folder.$backup_folder.'/'.$date_folder.'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist',$bank_array,$backup_folder);
 				}
 				break;
 			}
 		}
 	}
 
-	private function parse_summary_history($summary_path,$history_path,&$bank_array) {
+	private function parse_summary($summary_path,$history_path,&$bank_array,$backup_folder) {
 
 		$summary = file_get_contents($summary_path);
 
@@ -91,7 +93,7 @@ class dirvish {
 
 		if (strtotime($image_now) < (time()-86400)) { $date_status = false; } else { $date_status = true; }
 
-		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "summary" => $summary, "history" => $history, "date_status" => $date_status);
+		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "date_status" => $date_status, "backup_folder" => $backup_folder);
 
 	}
 
@@ -125,7 +127,16 @@ class dirvish {
 
 	public function get_clients() {
 
+		$this->scan_bank_folders();
 		return json_encode($this->clients);
+
+	}
+
+	public function get_history($bank, $client) {
+
+		$history = $this->parse_history($bank.$client.'/dirvish/default.hist');
+
+		return json_encode($history);
 
 	}
 

@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen" />
 
 	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
 	<script src="js/main.js"></script>
 </head>
 
@@ -19,9 +20,11 @@
 
 	<div id="logo" class="span-11 last"></div>
 
-	<div id="clients" class="span-24">
+	<div id="clients" class="span-24 last">
 		<br/>Scan des dossiers de backup en cours...
 	</div>
+
+	<div id="history" class="span-24 last" style="display: none;"></div>
 
 </div>
 
