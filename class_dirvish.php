@@ -97,7 +97,9 @@ class dirvish {
 
 	}
 
-	private function parse_history($history_path) {
+	private function parse_history($bank, $client) {
+
+		$history_path = $bank.$client.'/dirvish/default.hist';
 
 		$history = file_get_contents($history_path);
 		$history_array = explode("\n",trim($history));
@@ -112,7 +114,12 @@ class dirvish {
 
 			preg_match('/([0-9]+).([0-9]{4}-[0-9]{2}-[0-9]{2}).([0-9]{2}:[0-9]{2}:[0-9]{2}).([a-z0-9]+).(.+)/',$history_line,$history_line_matches);
 
-			$result[] = array("image" => $history_line_matches[1], "date" => $history_line_matches[2], "time" => $history_line_matches[3], "previous" => $history_line_matches[4], "expire" => $history_line_matches[5]);
+			$history_summary = file_get_contents($bank.$client.'/'.$history_line_matches[1].'/summary');
+
+			preg_match('/Status:(.*)/',$history_summary,$summary_matches);
+			$status = trim($summary_matches[1]);
+
+			$result[] = array("image" => $history_line_matches[1], "date" => $history_line_matches[2], "time" => $history_line_matches[3], "previous" => $history_line_matches[4], "expire" => $history_line_matches[5], "history_status" => $status);
 		}
 
 		return $result;
@@ -134,10 +141,17 @@ class dirvish {
 
 	public function get_history($bank, $client) {
 
-		$history = $this->parse_history($bank.$client.'/dirvish/default.hist');
+		$history = $this->parse_history($bank,$client);
 
 		return json_encode($history);
 
+	}
+
+	public function get_log($bank, $client, $image) {
+
+		$log = gzfile($bank.$client.'/'.$image.'/log.gz');
+
+		return json_encode($log);
 	}
 
 }
