@@ -42,17 +42,19 @@ function show_history(bank_name,client_name) {
 
 		$.getJSON('getHistory.php?bank='+bank_name+'&client='+client_name, function(data) {
 
-			$('#history').append('<div class="span-24 prepend-top last"><div class="span-23"><strong>Bank :</strong> '+bank_name+'</div><div class="span-1 last"><a href="#" onclick="show_clients();">Back</a></div></div><div id="title-bar" class="span-24 last"><div class="span-3">Date</div><div class="span-3">Time</div><div class="span-3">Image</div><div class="span-3">Previous</div><div class="span-3">Status</div><div class="span-9 last">Expire</div></div>');
+			$('#history').append('<div class="span-24 prepend-top last"><div class="span-23"><strong>Bank :</strong> '+bank_name+'<strong> - Client :</strong> '+client_name+'</div><div class="span-1 last"><a href="#" onclick="show_clients();">Back</a></div></div><div id="title-bar" class="span-24 last"><div class="span-3">Date</div><div class="span-3">Time</div><div class="span-3">Image</div><div class="span-3">Previous</div><div class="span-3">Status</div><div class="span-6">Expire</div><div class="span-3 last">Actions</div></div>');
 
 			$.each(data, function(key, val) {
 				
-				$('#history').append('<div class="span-24 last">'+
+				if (val.history_status == "success") { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
+				$('#history').append('<div class="span-24 last" style="background-color: '+back_color+'">'+
 					'<div class="span-3">'+val.date+'</div>'+
 					'<div class="span-3">'+val.time+'</div>'+
 					'<div class="span-3">'+val.image+'</div>'+
 					'<div class="span-3">'+val.previous+'</div>'+
 					'<div class="span-3">'+val.history_status+'</div>'+
-					'<div class="span-9 last">'+val.expire+'</div></div>');
+					'<div class="span-6">'+val.expire+'</div>'+
+					'<div class="span-3 last"><a href="#" onclick="show_log(\''+bank_name+'\', \''+client_name+'\', \''+val.image+'\')">Show log</a></div></div>');
 
 			});
 
@@ -73,15 +75,33 @@ function show_clients() {
 
 }
 
-function sh_summary(id) {
+function show_log(bank_name, client_name, image_name) {
 
-	if( $('#summary-'+id).is(':hidden') ) {
-		$('[id^=history-]').hide();
-		$('[id^=summary-]').hide();
-		$('#summary-'+id).show();
-	} else {
-		$('#summary-'+id).hide();
-	}
+	$('#history').hide("fade", 250, function() {
+
+		$('#log').empty();
+
+		$.getJSON('getLog.php?bank='+bank_name+'&client='+client_name+'&image='+image_name, function(data) {
+
+			$('#log').append('<div class="span-24 prepend-top last"><div class="span-23"><strong>Bank :</strong> '+bank_name+'<strong> - Client :</strong> '+client_name+'<strong> - Image :</strong> '+image_name+'</div><div class="span-1 last"><a href="#" onclick="log_to_history();">Back</a></div></div><div id="title-bar" class="span-24 last">Log</div>');
+
+			$('#log').append('<div class="span-24 last" style="background-color: #CCCCCC;"><div style="margin: 10px;">'+data+'</div></div>');
+
+		});
+
+		$('#log').show("fade", 250);
+	});
 
 }
 
+function log_to_history() {
+
+	$('#log').hide("fade", 250, function() {
+		
+		$('#log').empty();
+
+		$('#history').show("fade", 250);
+
+	});
+
+}

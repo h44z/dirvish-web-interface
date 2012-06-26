@@ -24,7 +24,8 @@
 		<br/>Scan des dossiers de backup en cours...
 	</div>
 
-	<div id="history" class="span-24 last" style="display: none;"></div>
+	<div id="history" class="span-24 last append-bottom" style="display: none;"></div>
+	<div id="log" class="span-24 last append-bottom" style="display: none;"></div>
 
 </div>
 

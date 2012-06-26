@@ -149,7 +149,7 @@ class dirvish {
 
 	public function get_log($bank, $client, $image) {
 
-		$log = gzfile($bank.$client.'/'.$image.'/log.gz');
+		$log = str_replace("\n",'<br/>',trim(implode(gzfile($bank.$client.'/'.$image.'/log.gz'))));
 
 		return json_encode($log);
 	}
