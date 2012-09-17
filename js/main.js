@@ -6,18 +6,19 @@ $(document).ready(function() {
 
 		$.each(data, function(bank_key, bank_val) {
 
-			$('#clients').append('<div class="span-24 prepend-top last"><strong>Bank :</strong> '+bank_val.bank+'<strong> - Free space : </strong>'+bank_val.free_space+' / '+bank_val.total_space+'</div><div id="title-bar" class="span-24 last"><div class="span-9">Client</div><div class="span-5">Last image</div><div class="span-5">Last job status</div><div class="span-5 last">Actions</div></div>');
+			$('#clients').append('<div class="row"><div class="span12"><strong>Bank :</strong> '+bank_val.bank+'<strong> - Free space : </strong>'+bank_val.free_space+' / '+bank_val.total_space+'</div></div>');
+			$('#clients').append('<div class="row""><div class="span3">Client</div><div class="span3">Last image</div><div class="span3">Last job status</div><div class="span3">Actions</div></div>');
 
 			$.each(bank_val.clients, function(key, val) {
 
-				if (val.date_status == true) { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
+				if (val.date_status == true && val.status == 'success') { back_color = '#CDEB8B'; } else { back_color = '#D01F3C'; }
 
-				$('#clients').append('<div class="span-24 last" style="background-color: '+back_color+';" id="client-'+bank_key+'-'+key+'"></div>');
+				$('#clients').append('<div class="row" style="overflow: hidden;" id="client-'+bank_key+'-'+key+'"></div>');
 
-				$('#client-'+bank_key+'-'+key).append('<div class="span-9">'+val.client+'</div>');
-				$('#client-'+bank_key+'-'+key).append('<div class="span-5">'+val.imageNow+'</div>');
-				$('#client-'+bank_key+'-'+key).append('<div class="span-5">'+val.status+'</div>');
-				$('#client-'+bank_key+'-'+key).append('<div class="span-5 last"><a href="#" onclick="show_history(\''+bank_val.bank+'\',\''+val.backup_folder+'\');">Show details</a></div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span3">'+val.client+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span3">'+val.imageNow+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span3" style="overflow: hidden; height: 18px;">'+val.status+'</div>');
+				$('#client-'+bank_key+'-'+key).append('<div class="span3"><a href="#" onclick="show_history(\''+bank_val.bank+'\',\''+val.backup_folder+'\');">Show details</a></div>');
 
 				$('#client-'+bank_key+'-'+key).append('<div id="history-'+bank_key+'-'+key+'" style="background-color: #EEEEEE;" class="span-24"></div>');
 

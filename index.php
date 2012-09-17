@@ -1,33 +1,64 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dirvish Web Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Pablo RUTH">
 
-<head>
-	<title>Dirvish Web Interface</title>
+    <!-- Le styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
 
-	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
-	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />    
-	<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
-	<link rel="stylesheet" href="css/global.css" type="text/css" media="screen" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
 
-	<script src="js/jquery-1.7.2.min.js"></script>
-	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
-	<script src="js/main.js"></script>
-</head>
+  <body>
 
-<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Dirvish Web Interface</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
-<div class="container">
+    <div class="container">
 
-	<div id="logo" class="span-11 last"></div>
+		<div class="row">
+				<div id="clients" class="span12">
+					<br/>Scan des dossiers de backup en cours...
+				</div>
+		</div>
 
-	<div id="clients" class="span-24 last">
-		<br/>Scan des dossiers de backup en cours...
-	</div>
+		<div id="history" class="span12" style="display: none;"></div>
+		<div id="log" class="span12" style="display: none;"></div>
 
-	<div id="history" class="span-24 last append-bottom" style="display: none;"></div>
-	<div id="log" class="span-24 last append-bottom" style="display: none;"></div>
+    </div> <!-- /container -->
 
-</div>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 
-</body>
+  </body>
 </html>
+
