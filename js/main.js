@@ -18,7 +18,7 @@ $(document).ready(function() {
 				table_rows += '<div class="span4">'+val.client+'</div>';
 				table_rows += '<div class="span3">'+val.imageNow+'</div>';
 				table_rows += '<div class="span3">'+val.status+'</div>';
-				table_rows += '<div class="span2"><i class="icon-eye-open"></i> <a href="#" onclick="show_history(\''+bank_val.bank+'\',\''+val.backup_folder+'\');">Show details</a></div>';
+				table_rows += '<div class="span2"><i class="icon-eye-open"></i> <a href="#" onclick="show_history(\''+bank_val.bank+'\',\''+val.backup_folder+'\');">Show history</a></div>';
 				table_rows += '</div>';
 			});
 
@@ -38,7 +38,7 @@ function show_history(bank_name,client_name) {
 
 		$.getJSON('getHistory.php?bank='+bank_name+'&client='+client_name, function(data) {
 
-			$('#history').append('<div class="row"><div class="span12"><a href="index.php"><i class="icon-arrow-left"></i> Back to clients</a> - <strong>Bank :</strong> '+bank_name+'<strong> - Client :</strong> '+client_name+'</div></div>');
+			$('#history').append('<div class="row"><div class="span12"><a href="index.php"><i class="icon-arrow-left"></i> Back to clients</a> - <strong><i class="icon-folder-open"></i> Bank :</strong> '+bank_name+'<strong> - <i class="icon-tasks"></i> Client :</strong> '+client_name+'</div></div>');
 
 			table_rows = "";
 
@@ -76,30 +76,30 @@ function show_clients() {
 
 function show_log(bank_name, client_name, image_name) {
 
-	$('#history').hide("fade", 250, function() {
+	$('#history').hide(0, function() {
 
 		$('#log').empty();
 
 		$.getJSON('getLog.php?bank='+bank_name+'&client='+client_name+'&image='+image_name, function(data) {
 
-			$('#log').append('<div class="span-24 prepend-top last"><div class="span-23"><strong>Bank :</strong> '+bank_name+'<strong> - Client :</strong> '+client_name+'<strong> - Image :</strong> '+image_name+'</div><div class="span-1 last"><a href="#" onclick="log_to_history();">Back</a></div></div><div id="title-bar" class="span-24 last">Log</div>');
+			$('#log').append('<div class="row"><div class="span12"><a href="#" onclick="log_to_history();"><i class="icon-arrow-left"></i> Back to history</a> - <strong><i class="icon-folder-open"></i> Bank :</strong> '+bank_name+'<strong> - <i class="icon-tasks"></i> Client :</strong> '+client_name+' - <i class="icon-camera"></i> Image :</strong> '+image_name+'</div></div>');
 
-			$('#log').append('<div class="span-24 last" style="background-color: #CCCCCC;"><div style="margin: 10px;">'+data+'</div></div>');
+			$('#log').append('<div class="row"><div class="span12" style="background-color: #000000; color: #FFFFFF; font-weight: bold; margin-top: 5px; margin-bottom: 5px; text-align: center;">Logs</div></div><div class="row"><div class="span12"><div style="border: 1px solid #E1E1E8; color: #000000; padding: 8px; background-color: #F7F7F9; margin-bottom: 10px;">'+data+'</div></div></div>');
 
 		});
 
-		$('#log').show("fade", 250);
+		$('#log').show();
 	});
 
 }
 
 function log_to_history() {
 
-	$('#log').hide("fade", 250, function() {
+	$('#log').hide(0, function() {
 		
 		$('#log').empty();
 
-		$('#history').show("fade", 250);
+		$('#history').show();
 
 	});
 
