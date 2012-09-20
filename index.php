@@ -45,9 +45,14 @@
     <div class="container">
 
 		<div class="row">
-				<div id="clients" class="span12">
-					<br/>Scan des dossiers de backup en cours...
+				<div id="loading" class="span12">
+					<div class="row"><div class="span6 offset3" style="text-align: center; margin-top: 60px;">Loading ...</div></div>
+					<div class="row"><div class="span6 offset3 progress progress-striped active" style="margin-top: 10px;"><div class="bar" style="width: 100%;"></div></div></div>
 				</div>
+		</div>
+
+		<div class="row">
+				<div id="clients" class="span12"></div>
 		</div>
 
 		<div id="history" class="span12" style="display: none;"></div>

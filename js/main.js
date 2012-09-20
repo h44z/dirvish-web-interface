@@ -23,6 +23,8 @@ $(document).ready(function() {
 			});
 
 			$('#clients').append('<div class="row" style="background-color: #000000; color: #FFFFFF; font-weight: bold; margin-top: 5px; margin-bottom: 5px;"><div class="span4">Client</div><div class="span3">Last image</div><div class="span3">Last job status</div><div class="span2">Actions</div></div>'+table_rows+'<div class="row"><div class="span12" style="height: 30px;"></div></div>');
+
+			$('#loading').hide();
 		});
 	});
 
@@ -32,9 +34,8 @@ function show_history(bank_name,client_name) {
 
 	$('#clients').hide(0, function() {
 
+		$('#loading').show();
 		$('#history').empty();
-
-
 
 		$.getJSON('getHistory.php?bank='+bank_name+'&client='+client_name, function(data) {
 
@@ -56,10 +57,12 @@ function show_history(bank_name,client_name) {
 			});
 
 			$('#history').append('<div class="row" style="background-color: #000000; color: #FFFFFF; font-weight: bold; margin-top: 5px; margin-bottom: 5px;"><div class="span2">Date</div><div class="span1">Time</div><div class="span1">Image</div><div class="span2">Status</div><div class="span4">Expire</div><div class="span2">Actions</div></div>'+table_rows+'<div class="row"><div class="span12" style="height: 30px;"></div>');
+			
+			$('#history').show();
+			$('#loading').hide();
 
 		});
 
-		$('#history').show();
 	});
 
 }
@@ -78,6 +81,7 @@ function show_log(bank_name, client_name, image_name) {
 
 	$('#history').hide(0, function() {
 
+		$('#loading').show();
 		$('#log').empty();
 
 		$.getJSON('getLog.php?bank='+bank_name+'&client='+client_name+'&image='+image_name, function(data) {
@@ -86,9 +90,11 @@ function show_log(bank_name, client_name, image_name) {
 
 			$('#log').append('<div class="row"><div class="span12" style="background-color: #000000; color: #FFFFFF; font-weight: bold; margin-top: 5px; margin-bottom: 5px; text-align: center;">Logs</div></div><div class="row"><div class="span12"><div style="border: 1px solid #E1E1E8; color: #000000; padding: 8px; background-color: #F7F7F9; margin-bottom: 10px;">'+data+'</div></div></div>');
 
+			$('#log').show();
+			$('#loading').hide();
+
 		});
 
-		$('#log').show();
 	});
 
 }
