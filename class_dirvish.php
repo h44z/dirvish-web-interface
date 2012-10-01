@@ -60,22 +60,15 @@ class dirvish {
 
 			if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.$backup_folder)) {
 
-				$date_folders = scandir($bank_folder.$backup_folder,SCANDIR_SORT_DESCENDING);
-				
-				$this->scan_date_folders($bank_folder,$backup_folder,$date_folders,$bank_array);
-			}
-		}
-	}
+				$history_path = $bank_folder.$backup_folder.'/dirvish/default.hist';
 
-	private function scan_date_folders($bank_folder,$backup_folder,$date_folders,&$bank_array) {
+				if (file_exists($history_path)) {
+					$history = explode("\n",trim(file_get_contents($history_path)));
+					
+					preg_match('/^[0-9]+/',$history[count($history)-1],$history_matches);
 
-		foreach ($date_folders as $date_folder) {
-			if ($date_folder != 'dirvish') {
-				if (file_exists($bank_folder.$backup_folder.'/'.$date_folder.'/summary')) {
-
-					$this->parse_summary($bank_folder.$backup_folder.'/'.$date_folder.'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist',$bank_array,$backup_folder);
+					$this->parse_summary($bank_folder.$backup_folder.'/'.$history_matches[0].'/summary', $bank_folder.'/'.$backup_folder.'/dirvish/default.hist',$bank_array,$backup_folder);
 				}
-				break;
 			}
 		}
 	}
@@ -158,6 +151,9 @@ class dirvish {
 	}
 
 	public function get_log($bank, $client, $image) {
+
+		if (!file_exists($bank.$client.'/'.$image.'/log.gz')) 
+			throw new Exception('Summary file \''.$bank.$client.'/'.$image.'/log.gz'.'\' not found');
 
 		$log = str_replace("\n",'<br/>',trim(implode(gzfile($bank.$client.'/'.$image.'/log.gz'))));
 
