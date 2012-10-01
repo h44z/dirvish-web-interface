@@ -13,7 +13,8 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-    </style>
+	</style>
+	<link rel="shortcut icon" href="favicon.ico">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

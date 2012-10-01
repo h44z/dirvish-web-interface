@@ -7,16 +7,25 @@ class dirvish {
 	private $clients;
 
 	function dirvish() {
-		$this->load_master_conf();
+		$this->load_master_conf(); //Load dirvish conf file to parse bank's names
 	}
 
 	private function load_master_conf() {
 
-		$master_conf = file_get_contents($this->master_conf_path);
+			//Exception
+			if (!file_exists($this->master_conf_path)) 
+				throw new Exception('Dirvish configuration file \''.$this->master_conf_patch.'\' not found');
 
-		preg_match('/bank:\n(.*)\n\n/msU',$master_conf,$matches);
-		$this->bank_folders = explode("\n",$matches[1]);
-		
+			$master_conf = file_get_contents($this->master_conf_path);
+
+			preg_match('/bank:\n(.*)\n\n/msU',$master_conf,$matches); //Extract paths of banks from conf file
+
+			//Exception
+			if (count(explode("\n",$matches[1]))<1) 
+					throw new Exception('No banks found in configuration file');
+
+			$this->bank_folders = explode("\n",$matches[1]); //Store paths of banks
+
 	}
 
 	private function scan_bank_folders() {
@@ -26,6 +35,9 @@ class dirvish {
 			$bank_folder=trim($bank_folder);
 			
 			if (!preg_match('/\/$/',$bank_folder)) { $bank_folder = $bank_folder.'/'; }
+
+			if (!is_dir($bank_folder))
+					throw new Exception('Bank directory \''.$bank_folder.'\' doesn\'t exist');
 
 			$backup_folders = scandir($bank_folder);
 
@@ -46,7 +58,7 @@ class dirvish {
 
 		foreach ($backup_folders as $backup_folder) {
 
-			if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.'/'.$backup_folder)) {
+			if ($backup_folder!='.' && $backup_folder!='..' && is_dir($bank_folder.$backup_folder)) {
 
 				$date_folders = scandir($bank_folder.$backup_folder,SCANDIR_SORT_DESCENDING);
 				
@@ -86,8 +98,6 @@ class dirvish {
 
 		preg_match('/Image-now:(.*)/',$summary,$summary_matches);
 		$image_now = trim($summary_matches[1]);
-
-		$history = $this->parse_history($history_path);
 
 		$summary = str_replace("\n",'<br/>',$summary);
 
