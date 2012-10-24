@@ -1,8 +1,10 @@
 <?php
 
+require_once('config.php');
+
 class dirvish {
 
-	private $master_conf_path = '/etc/dirvish/master.conf';
+	private $master_conf_path = MASTER_CONF_PATH;
 	private $bank_folders;
 	private $clients;
 
@@ -94,7 +96,7 @@ class dirvish {
 
 		$summary = str_replace("\n",'<br/>',$summary);
 
-		if (strtotime($image_now) < (time()-86400)) { $date_status = false; } else { $date_status = true; }
+		if (strtotime($image_now) > (time()-86400)) { $date_status = true; } else { $date_status = false; }
 
 		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "date_status" => $date_status, "backup_folder" => $backup_folder);
 
