@@ -1,0 +1,18 @@
+Dirvish Web Interface
+=====================
+
+See AUTHORS and COPYRIGHT for the list of contributors.
+
+Install
+=======
+
+* Install Dirvish ( see howto : http://www.dirvish.org/debian.howto.html )
+* Install a webserver with php5 support
+  - Exemple with apache : apt-get install apache2 php5
+* Clone all files in your webserver root folder 
+  - With apache : git clone git://github.com/pablor44/dirvish-web-interface.git /var/www/dirvish-web-interface
+* Copy exemple config file to create your config file
+  - cd /var/www/dirvish-web-interface && cp config.php.exemple config.php
+* Edit config file and replace path to master dirvish config file if necessary
+
+* Now you can access web interface in your browser : http://localhost/dirvish-web-interface/
