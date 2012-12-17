@@ -98,7 +98,9 @@ class dirvish {
 
 		if (strtotime($image_now) > (time()-86400)) { $date_status = true; } else { $date_status = false; }
 
-		$bank_array[] = array("client" => $client, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "date_status" => $date_status, "backup_folder" => $backup_folder);
+		if (CLIENT_DISPLAY_MODE == 0) { $client_display = $client; } else { $client_display = $backup_folder; }
+
+		$bank_array[] = array("client" => $client_display, "status" => $status, "backupBegin" => $backup_begin, "backupComplete" => $backup_complete, "imageNow" => $image_now, "date_status" => $date_status, "backup_folder" => $backup_folder);
 
 	}
 

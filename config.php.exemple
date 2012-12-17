@@ -3,4 +3,9 @@
   //Path to master config file of Dirvish
   define ('MASTER_CONF_PATH','/etc/dirvish/master.conf');
 
+  //Client display name on home
+  //0 display client name extracted from default.conf files
+  //1 display backup folder name as client name
+   define ('CLIENT_DISPLAY_MODE',0);
+
 ?>
