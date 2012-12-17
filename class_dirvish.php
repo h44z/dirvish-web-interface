@@ -156,10 +156,15 @@ class dirvish {
 
 	public function get_log($bank, $client, $image) {
 
-		if (!file_exists($bank.$client.'/'.$image.'/log.gz')) 
-			throw new Exception('Summary file \''.$bank.$client.'/'.$image.'/log.gz'.'\' not found');
+		if (file_exists($bank.$client.'/'.$image.'/log')) {
+			$log = str_replace("\n",'<br/>',trim(implode(file($bank.$client.'/'.$image.'/log'))));
 
-		$log = str_replace("\n",'<br/>',trim(implode(gzfile($bank.$client.'/'.$image.'/log.gz'))));
+		} elseif (file_exists($bank.$client.'/'.$image.'/log.gz')) {
+			$log = str_replace("\n",'<br/>',trim(implode(gzfile($bank.$client.'/'.$image.'/log.gz'))));
+
+		} else {
+			throw new Exception('Summary file \''.$bank.$client.'/'.$image.'/log.gz'.'\' not found');
+		}
 
 		return json_encode($log);
 	}
