@@ -6,7 +6,10 @@ See AUTHORS and COPYRIGHT for the list of contributors.
 Install
 =======
 
-* Install Dirvish ( see howto : http://www.dirvish.org/debian.howto.html )
+* Install Dirvish, see howto :
+		en -> http://www.dirvish.org/debian.howto.html
+		fr -> http://blog.pablo-ruth.fr/index.php/dirvish-sauvegarde-automatique-et-incrementale-via-ssh/
+
 * Install a webserver with php5 support
   - Exemple with apache : apt-get install apache2 php5
 * Clone all files in your webserver root folder 
